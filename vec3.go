@@ -22,6 +22,14 @@ func (v Vec3) Dot(w Vec3) float32 {
 	return v[0]*w[0] + v[1]*w[1] + v[2]*w[2]
 }
 
+func (v Vec3) Cross(w Vec3) Vec3 {
+	return Vec3{
+		v[1]*w[2] - v[2]*w[1],
+		v[2]*w[0] - v[0]*w[2],
+		v[0]*w[1] - v[1]*w[0],
+	}
+}
+
 func (v Vec3) MulScalar(s float32) Vec3 {
 	return Vec3{v[0] * s, v[1] * s, v[2] * s}
 }

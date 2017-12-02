@@ -147,3 +147,15 @@ func Perspective(fovRadians, aspect, near, far float32) Mat4 {
 		0, 0, -near * far / dz, 0,
 	}
 }
+
+func LookAt(pos, target, up Vec3) Mat4 {
+	z := target.Sub(pos).Normalized()
+	x := up.Cross(z).Normalized()
+	y := z.Cross(x)
+	return Mat4{
+		x[0], y[0], z[0], 0,
+		x[1], y[1], z[1], 0,
+		x[2], y[2], z[2], 0,
+		-x.Dot(pos), -y.Dot(pos), -z.Dot(pos), 1,
+	}
+}
