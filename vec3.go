@@ -47,6 +47,11 @@ func (v Vec3) Norm() float32 {
 	return float32(math.Sqrt(float64(v.SquareNorm())))
 }
 
+func (v Vec3) Normalized() Vec3 {
+	f := 1.0 / v.Norm()
+	return Vec3{f * v[0], f * v[1], f * v[2]}
+}
+
 func (v Vec3) Homgeneous() Vec4 {
 	return Vec4{v[0], v[1], v[2], 1}
 }

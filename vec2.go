@@ -45,6 +45,11 @@ func (v Vec2) Norm() float32 {
 	return float32(math.Hypot(float64(v[0]), float64(v[1])))
 }
 
+func (v Vec2) Normalized() Vec2 {
+	f := 1.0 / v.Norm()
+	return Vec2{f * v[0], f * v[1]}
+}
+
 func (v Vec2) Homgeneous() Vec3 {
 	return Vec3{v[0], v[1], 1}
 }
