@@ -1,5 +1,7 @@
 package d3dmath
 
+import "fmt"
+
 // Mat2x3 is a 2x3 matrix of float32s in row-major order. It represents a
 // homogeneous 3x3 matrix where the last line is 0,0,1 implicitly.
 type Mat2x3 [6]float32
@@ -57,4 +59,9 @@ func (m Mat2x3) ToMat3() Mat3 {
 		m[3], m[4], m[5],
 		0, 0, 1,
 	}
+}
+
+func (m Mat2x3) String() string {
+	return fmt.Sprintf(`%.2f %.2f %.2f
+%.2f %.2f %.2f`, m[0], m[1], m[2], m[3], m[4], m[5])
 }

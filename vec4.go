@@ -1,19 +1,15 @@
 package d3dmath
 
+import "fmt"
+
 type Vec4 [4]float32
 
-func (v Vec4) Add(w Vec4) (sum Vec4) {
-	for i := range sum {
-		sum[i] = v[i] + w[i]
-	}
-	return
+func (v Vec4) Add(w Vec4) Vec4 {
+	return Vec4{v[0] + w[0], v[1] + w[1], v[2] + w[2], v[3] + w[3]}
 }
 
-func (v Vec4) Sub(w Vec4) (diff Vec4) {
-	for i := range diff {
-		diff[i] = v[i] + w[i]
-	}
-	return
+func (v Vec4) Sub(w Vec4) Vec4 {
+	return Vec4{v[0] - w[0], v[1] - w[1], v[2] - w[2], v[3] - w[3]}
 }
 
 func (v Vec4) Dot(w Vec4) float32 {
@@ -37,4 +33,12 @@ func (v Vec4) MulMat(m Mat4) Vec4 {
 		v[0]*m[2] + v[1]*m[6] + v[2]*m[10] + v[3]*m[14],
 		v[0]*m[3] + v[1]*m[7] + v[2]*m[11] + v[3]*m[15],
 	}
+}
+
+func (v Vec4) DropW() Vec3 {
+	return Vec3{v[0], v[1], v[2]}
+}
+
+func (v Vec4) String() string {
+	return fmt.Sprintf("(%.2f %.2f %.2f %.2f)", v[0], v[1], v[2], v[3])
 }

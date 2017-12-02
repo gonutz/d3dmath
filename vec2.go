@@ -1,21 +1,18 @@
 package d3dmath
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type Vec2 [2]float32
 
-func (v Vec2) Add(w Vec2) (sum Vec2) {
-	for i := range sum {
-		sum[i] = v[i] + w[i]
-	}
-	return
+func (v Vec2) Add(w Vec2) Vec2 {
+	return Vec2{v[0] + w[0], v[1] + w[1]}
 }
 
-func (v Vec2) Sub(w Vec2) (diff Vec2) {
-	for i := range diff {
-		diff[i] = v[i] + w[i]
-	}
-	return
+func (v Vec2) Sub(w Vec2) Vec2 {
+	return Vec2{v[0] - w[0], v[1] - w[1]}
 }
 
 func (v Vec2) Dot(w Vec2) float32 {
@@ -52,4 +49,8 @@ func (v Vec2) Normalized() Vec2 {
 
 func (v Vec2) Homgeneous() Vec3 {
 	return Vec3{v[0], v[1], 1}
+}
+
+func (v Vec2) String() string {
+	return fmt.Sprintf("(%.2f %.2f)", v[0], v[1])
 }

@@ -1,20 +1,22 @@
 package d3dmath
 
+import "fmt"
+
 // Mat2 is a 2x2 matrix of float32s in row-major order.
 type Mat2 [4]float32
 
-func (m Mat2) Add(n Mat2) (sum Mat2) {
-	for i := range sum {
-		sum[i] = m[i] + n[i]
+func (m Mat2) Add(n Mat2) Mat2 {
+	return Mat2{
+		m[0] + n[0], m[1] + n[1],
+		m[2] + n[2], m[3] + n[3],
 	}
-	return
 }
 
-func (m Mat2) Sub(n Mat2) (diff Mat2) {
-	for i := range diff {
-		diff[i] = m[i] - n[i]
+func (m Mat2) Sub(n Mat2) Mat2 {
+	return Mat2{
+		m[0] - n[0], m[1] - n[1],
+		m[2] - n[2], m[3] - n[3],
 	}
-	return
 }
 
 //       | n0        n1
@@ -52,4 +54,9 @@ func (m Mat2) Homgeneous() Mat3 {
 		m[2], m[3], 0,
 		0, 0, 1,
 	}
+}
+
+func (m Mat2) String() string {
+	return fmt.Sprintf(`%.2f %.2f
+%.2f %.2f`, m[0], m[1], m[2], m[3])
 }

@@ -1,5 +1,7 @@
 package d3dmath
 
+import "fmt"
+
 // Mat3 is a 3x3 matrix of float32s in row-major order.
 type Mat3 [9]float32
 
@@ -62,4 +64,10 @@ func (m Mat3) Homgeneous() Mat4 {
 		m[6], m[7], m[8], 0,
 		0, 0, 0, 1,
 	}
+}
+
+func (m Mat3) String() string {
+	return fmt.Sprintf(`%.2f %.2f %.2f
+%.2f %.2f %.2f
+%.2f %.2f %.2f`, m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8])
 }

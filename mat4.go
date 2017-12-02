@@ -1,6 +1,9 @@
 package d3dmath
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // Mat4 is a 4x4 matrix in row-major order of floats
 type Mat4 [16]float32
@@ -158,4 +161,12 @@ func LookAt(pos, target, up Vec3) Mat4 {
 		x[2], y[2], z[2], 0,
 		-x.Dot(pos), -y.Dot(pos), -z.Dot(pos), 1,
 	}
+}
+
+func (m Mat4) String() string {
+	return fmt.Sprintf(`%.2f %.2f %.2f %.2f
+%.2f %.2f %.2f %.2f
+%.2f %.2f %.2f %.2f
+%.2f %.2f %.2f %.2f`, m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8],
+		m[9], m[10], m[11], m[12], m[13], m[14], m[15])
 }
