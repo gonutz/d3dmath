@@ -64,3 +64,10 @@ func (v Vec3) Homgeneous() Vec4 {
 func (v Vec3) String() string {
 	return fmt.Sprintf("(%.2f %.2f %.2f)", v[0], v[1], v[2])
 }
+
+func AddVec3(v0 Vec3, v ...Vec3) Vec3 {
+	if len(v) == 0 {
+		return v0
+	}
+	return v0.Add(AddVec3(v[0], v[1:]...))
+}
