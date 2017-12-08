@@ -89,11 +89,29 @@ func Translate(dx, dy, dz float32) Mat4 {
 	}
 }
 
+func TranslateV(v Vec3) Mat4 {
+	return Mat4{
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		v[0], v[1], v[2], 1,
+	}
+}
+
 func Scale(dx, dy, dz float32) Mat4 {
 	return Mat4{
 		dx, 0, 0, 0,
 		0, dy, 0, 0,
 		0, 0, dz, 0,
+		0, 0, 0, 1,
+	}
+}
+
+func ScaleV(v Vec3) Mat4 {
+	return Mat4{
+		v[0], 0, 0, 0,
+		0, v[1], 0, 0,
+		0, 0, v[2], 0,
 		0, 0, 0, 1,
 	}
 }
@@ -127,6 +145,21 @@ func RotateZ(radians float32) Mat4 {
 		cos, sin, 0, 0,
 		-sin, cos, 0, 0,
 		0, 0, 1, 0,
+		0, 0, 0, 1,
+	}
+}
+
+func RotateAbout(v Vec3, radians float32) Mat4 {
+	sqLen := v.SquareNorm()
+	if sqLen < 0.99999 || sqLen > 1.00001 {
+		v = v.Normalized()
+	}
+	s, c := math.Sincos(float64(radians))
+	sin, cos := float32(s), float32(c)
+	return Mat4{
+		cos + v[0]*v[0]*(1-cos), v[0]*v[1]*(1-cos) + v[2]*sin, v[0]*v[2]*(1-cos) - v[1]*sin, 0,
+		v[1]*v[0]*(1-cos) - v[2]*sin, cos + v[1]*v[1]*(1-cos), v[1]*v[2]*(1-cos) + v[0]*sin, 0,
+		v[2]*v[0]*(1-cos) + v[1]*sin, v[2]*v[1]*(1-cos) - v[0]*sin, cos + v[2]*v[2]*(1-cos), 0,
 		0, 0, 0, 1,
 	}
 }
