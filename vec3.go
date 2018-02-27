@@ -57,7 +57,7 @@ func (v Vec3) Normalized() Vec3 {
 	return Vec3{f * v[0], f * v[1], f * v[2]}
 }
 
-func (v Vec3) Homgeneous() Vec4 {
+func (v Vec3) Homogeneous() Vec4 {
 	return Vec4{v[0], v[1], v[2], 1}
 }
 
