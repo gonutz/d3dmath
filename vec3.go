@@ -7,6 +7,10 @@ import (
 
 type Vec3 [3]float32
 
+func (v Vec3) Negate() Vec3 {
+	return Vec3{-v[0], -v[1], -v[2]}
+}
+
 func (v Vec3) Add(w Vec3) Vec3 {
 	return Vec3{v[0] + w[0], v[1] + w[1], v[2] + w[2]}
 }
