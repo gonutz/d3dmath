@@ -5,7 +5,13 @@ import (
 	"math"
 )
 
-// Mat4 is a 4x4 matrix in row-major order of floats
+// Mat4 is a 4x4 matrix in row-major order of floats:
+// Mat4{
+// 	 m[0],  m[1],  m[2],  m[3],
+// 	 m[4],  m[5],  m[6],  m[7],
+// 	 m[8],  m[9], m[10], m[11],
+// 	m[12], m[13], m[14], m[15],
+// }
 type Mat4 [16]float32
 
 func (m Mat4) Add(n Mat4) (sum Mat4) {
@@ -202,4 +208,34 @@ func (m Mat4) String() string {
 %.2f %.2f %.2f %.2f
 %.2f %.2f %.2f %.2f`, m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8],
 		m[9], m[10], m[11], m[12], m[13], m[14], m[15])
+}
+
+// DecomposeAffineTransform decomposes the given matrix into scale, rotation and
+// translation matrices that, when multiplied in that order, produce the
+// original matrix. See this forum post for reference:
+// https://math.stackexchange.com/questions/237369/given-this-transformation-matrix-how-do-i-decompose-it-into-translation-rotati
+func DecomposeAffineTransform(m Mat4) (scale, rotation, translation Mat4) {
+	translation = Mat4{
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		m[12], m[13], m[14], 1,
+	}
+	sx := Vec3{m[0], m[1], m[2]}.Norm()
+	sy := Vec3{m[4], m[5], m[6]}.Norm()
+	sz := Vec3{m[8], m[9], m[10]}.Norm()
+	scale = Mat4{
+		sx, 0, 0, 0,
+		0, sy, 0, 0,
+		0, 0, sz, 0,
+		0, 0, 0, 1,
+	}
+	fx, fy, fz := 1/sx, 1/sy, 1/sz
+	rotation = Mat4{
+		fx * m[0], fx * m[1], fx * m[2], 0,
+		fy * m[4], fy * m[5], fy * m[6], 0,
+		fz * m[8], fz * m[9], fz * m[10], 0,
+		0, 0, 0, 1,
+	}
+	return
 }
