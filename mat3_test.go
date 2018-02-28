@@ -67,7 +67,7 @@ func TestMat3Homgeneous(t *testing.T) {
 		1, 2, 5,
 		3, 4, 6,
 		5, 3, 7,
-	}.Homgeneous()
+	}.Homogeneous()
 	checkFloats(t, m[:],
 		1, 2, 5, 0,
 		3, 4, 6, 0,

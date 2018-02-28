@@ -57,7 +57,7 @@ func Mul3(m0 Mat3, m ...Mat3) Mat3 {
 	return m0.Mul(Mul3(m[0], m[1:]...))
 }
 
-func (m Mat3) Homgeneous() Mat4 {
+func (m Mat3) Homogeneous() Mat4 {
 	return Mat4{
 		m[0], m[1], m[2], 0,
 		m[3], m[4], m[5], 0,

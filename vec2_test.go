@@ -51,7 +51,7 @@ func TestVec2Normalized(t *testing.T) {
 }
 
 func TestVec2Homogeneous(t *testing.T) {
-	v := Vec2{3, 4}.Homgeneous()
+	v := Vec2{3, 4}.Homogeneous()
 	checkFloats(t, v[:], 3, 4, 1)
 }
 
