@@ -2,6 +2,11 @@ package d3dmath
 
 import "testing"
 
+func TestVec2Negate(t *testing.T) {
+	v := Vec2{2, -3}.Negate()
+	checkFloats(t, v[:], -2, 3)
+}
+
 func TestVec2Add(t *testing.T) {
 	v := Vec2{2, 3}.Add(Vec2{5, 7})
 	checkFloats(t, v[:], 7, 10)

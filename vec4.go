@@ -4,6 +4,10 @@ import "fmt"
 
 type Vec4 [4]float32
 
+func (v Vec4) Negate() Vec4 {
+	return Vec4{-v[0], -v[1], -v[2], -v[3]}
+}
+
 func (v Vec4) Add(w Vec4) Vec4 {
 	return Vec4{v[0] + w[0], v[1] + w[1], v[2] + w[2], v[3] + w[3]}
 }

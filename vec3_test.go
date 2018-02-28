@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+func TestVec3Negate(t *testing.T) {
+	v := Vec3{2, 3, -5}.Negate()
+	checkFloats(t, v[:], -2, -3, 5)
+}
+
 func TestVec3Add(t *testing.T) {
 	v := Vec3{2, 3, -5}.Add(Vec3{5, 7, 1})
 	checkFloats(t, v[:], 7, 10, -4)
