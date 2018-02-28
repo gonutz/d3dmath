@@ -62,7 +62,7 @@ func TestIdentity3(t *testing.T) {
 	)
 }
 
-func TestMat3Homgeneous(t *testing.T) {
+func TestMat3Homogeneous(t *testing.T) {
 	m := Mat3{
 		1, 2, 5,
 		3, 4, 6,
