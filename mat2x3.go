@@ -6,6 +6,7 @@ import "fmt"
 // homogeneous 3x3 matrix where the last line is 0,0,1 implicitly.
 type Mat2x3 [6]float32
 
+// Add returns the sum of m + n.
 func (m Mat2x3) Add(n Mat2x3) (sum Mat2x3) {
 	for i := range sum {
 		sum[i] = m[i] + n[i]
@@ -13,6 +14,7 @@ func (m Mat2x3) Add(n Mat2x3) (sum Mat2x3) {
 	return
 }
 
+// Sub returns the difference of m - n.
 func (m Mat2x3) Sub(n Mat2x3) (diff Mat2x3) {
 	for i := range diff {
 		diff[i] = m[i] - n[i]
@@ -20,13 +22,7 @@ func (m Mat2x3) Sub(n Mat2x3) (diff Mat2x3) {
 	return
 }
 
-//          | n0        n1        n2
-//          | n3        n4        n5
-//    *     |  0         0         1
-// ---------+---------------------------------------------
-// m0 m1 m2 | m0n0+m1n3 m0n1+m1n4 m0n2+m1n5+m2
-// m3 m4 m5 | m3n0+m4n3 m3n1+m4n4 m3n2+m4n5+m5
-//  0  0  1 |  0        0         1
+// Mul returns the product of m * n.
 func (m Mat2x3) Mul(n Mat2x3) Mat2x3 {
 	return Mat2x3{
 		m[0]*n[0] + m[1]*n[3],
@@ -39,6 +35,7 @@ func (m Mat2x3) Mul(n Mat2x3) Mat2x3 {
 	}
 }
 
+// Identity2x3 returns the 2 by 3 homogeneous identity matrix.
 func Identity2x3() Mat2x3 {
 	return Mat2x3{
 		1, 0, 0,
@@ -46,6 +43,7 @@ func Identity2x3() Mat2x3 {
 	}
 }
 
+// Mul2x3 returns the product of the given matrices.
 func Mul2x3(m0 Mat2x3, m ...Mat2x3) Mat2x3 {
 	if len(m) == 0 {
 		return m0
@@ -53,6 +51,7 @@ func Mul2x3(m0 Mat2x3, m ...Mat2x3) Mat2x3 {
 	return m0.Mul(Mul2x3(m[0], m[1:]...))
 }
 
+// ToMat3 returns the 3 by 3 representation of m.
 func (m Mat2x3) ToMat3() Mat3 {
 	return Mat3{
 		m[0], m[1], m[2],

@@ -5,15 +5,10 @@ import (
 	"math"
 )
 
-// Mat4 is a 4x4 matrix in row-major order of floats:
-// Mat4{
-// 	 m[0],  m[1],  m[2],  m[3],
-// 	 m[4],  m[5],  m[6],  m[7],
-// 	 m[8],  m[9], m[10], m[11],
-// 	m[12], m[13], m[14], m[15],
-// }
+// Mat4 is a 4 by 4 matrix of float32s in row-major order.
 type Mat4 [16]float32
 
+// Add returns the sum of m + n.
 func (m Mat4) Add(n Mat4) (sum Mat4) {
 	for i := range sum {
 		sum[i] = m[i] + n[i]
@@ -21,6 +16,7 @@ func (m Mat4) Add(n Mat4) (sum Mat4) {
 	return
 }
 
+// Sub returns the difference of m - n.
 func (m Mat4) Sub(n Mat4) (diff Mat4) {
 	for i := range diff {
 		diff[i] = m[i] - n[i]
@@ -28,15 +24,7 @@ func (m Mat4) Sub(n Mat4) (diff Mat4) {
 	return
 }
 
-//                 | n0  n1  n2  n3
-//                 | n4  n5  n6  n7
-//             *   | n8  n9  n10 n11
-//                 | n12 n13 n14 n15
-// ----------------+---------------------------------------------
-// m0  m1  m2  m3  |
-// m4  m5  m6  m7  | ...
-// m8  m9  m10 m11 |
-// m12 m13 m14 m15 |
+// Mul returns the product of m * n.
 func (m Mat4) Mul(n Mat4) Mat4 {
 	return Mat4{
 		m[0]*n[0] + m[1]*n[4] + m[2]*n[8] + m[3]*n[12],
@@ -61,6 +49,7 @@ func (m Mat4) Mul(n Mat4) Mat4 {
 	}
 }
 
+// Mul4 returns the product of the given matrices.
 func Mul4(m0 Mat4, m ...Mat4) Mat4 {
 	if len(m) == 0 {
 		return m0
@@ -68,6 +57,7 @@ func Mul4(m0 Mat4, m ...Mat4) Mat4 {
 	return m0.Mul(Mul4(m[0], m[1:]...))
 }
 
+// Transposed returns a transposed copy of m.
 func (m Mat4) Transposed() Mat4 {
 	return Mat4{
 		m[0], m[4], m[8], m[12],
@@ -77,6 +67,7 @@ func (m Mat4) Transposed() Mat4 {
 	}
 }
 
+// Identity4 returns the 4 by 4 identity matrix.
 func Identity4() Mat4 {
 	return Mat4{
 		1, 0, 0, 0,
@@ -86,6 +77,8 @@ func Identity4() Mat4 {
 	}
 }
 
+// Translate reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, moves the vector by the given amounts in x, y and z.
 func Translate(dx, dy, dz float32) Mat4 {
 	return Mat4{
 		1, 0, 0, 0,
@@ -95,6 +88,8 @@ func Translate(dx, dy, dz float32) Mat4 {
 	}
 }
 
+// TranslateV is the same as Translate, but it takes a Vec3 as its argument
+// instead of single x, y, z parameters.
 func TranslateV(v Vec3) Mat4 {
 	return Mat4{
 		1, 0, 0, 0,
@@ -104,6 +99,8 @@ func TranslateV(v Vec3) Mat4 {
 	}
 }
 
+// Scale reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, scales the vector by the given factors in x, y and z.
 func Scale(dx, dy, dz float32) Mat4 {
 	return Mat4{
 		dx, 0, 0, 0,
@@ -113,6 +110,8 @@ func Scale(dx, dy, dz float32) Mat4 {
 	}
 }
 
+// ScaleV is the same as Scale, but it takes a Vec3 as its argument instead of
+// single x, y, z parameters.
 func ScaleV(v Vec3) Mat4 {
 	return Mat4{
 		v[0], 0, 0, 0,
@@ -122,6 +121,9 @@ func ScaleV(v Vec3) Mat4 {
 	}
 }
 
+// RotateX reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, rotates the vector about the x-axis by the given angle
+// in radians.
 func RotateX(radians float32) Mat4 {
 	s, c := math.Sincos(float64(radians))
 	sin, cos := float32(s), float32(c)
@@ -133,6 +135,9 @@ func RotateX(radians float32) Mat4 {
 	}
 }
 
+// RotateY reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, rotates the vector about the y-axis by the given angle
+// in radians.
 func RotateY(radians float32) Mat4 {
 	s, c := math.Sincos(float64(radians))
 	sin, cos := float32(s), float32(c)
@@ -144,6 +149,9 @@ func RotateY(radians float32) Mat4 {
 	}
 }
 
+// RotateZ reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, rotates the vector about the z-axis by the given angle
+// in radians.
 func RotateZ(radians float32) Mat4 {
 	s, c := math.Sincos(float64(radians))
 	sin, cos := float32(s), float32(c)
@@ -155,6 +163,9 @@ func RotateZ(radians float32) Mat4 {
 	}
 }
 
+// RotateAbout reutrns 4 by 4 matrix that, when multiplied with a homogeneous
+// 4-element 3D vector, rotates the vector about the given vector v by the given
+// angle in radians.
 func RotateAbout(v Vec3, radians float32) Mat4 {
 	sqLen := v.SquareNorm()
 	if sqLen < 0.99999 || sqLen > 1.00001 {
@@ -170,6 +181,7 @@ func RotateAbout(v Vec3, radians float32) Mat4 {
 	}
 }
 
+// Ortho returns an orthographic projection matrix.
 func Ortho(left, right, bottom, top, near, far float32) Mat4 {
 	return Mat4{
 		2 / (right - left), 0, 0, 0,
@@ -179,6 +191,7 @@ func Ortho(left, right, bottom, top, near, far float32) Mat4 {
 	}
 }
 
+// Perspective returns an perspective projection matrix.
 func Perspective(fovRadians, aspect, near, far float32) Mat4 {
 	f := 1 / float32(math.Tan(float64(fovRadians)/2))
 	dz := far - near
@@ -190,6 +203,9 @@ func Perspective(fovRadians, aspect, near, far float32) Mat4 {
 	}
 }
 
+// LookAt returns a matrix that, when used for the camera, looks at target from
+// position pos. Since you can tilt your head in infinite ways looking from one
+// point at another, the up vector is used to specify which direction is up.
 func LookAt(pos, target, up Vec3) Mat4 {
 	z := target.Sub(pos).Normalized()
 	x := up.Cross(z).Normalized()
